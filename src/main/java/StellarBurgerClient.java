@@ -50,13 +50,23 @@ public class StellarBurgerClient {
                 .all();
     }
 
-    public ValidatableResponse updateUser(User originalUser, User updatedUser, String token) {
+    public ValidatableResponse updateUser(User updatedUser, String token) {
         return given()
                 .log().all()
                 .baseUri(BASE_URL)
                 .header("Content-type", "application/json")
                 .header("Authorization", token)
                 .body(updatedUser)
+                .patch("/api/auth/user")
+                .then()
+                .log().all();
+    }
+    public ValidatableResponse updateUserWithoutAuth(User updatedUser) {
+        return given()
+                .log().all()
+                .baseUri(BASE_URL)
+                .header("Content-type", "application/json")
+                 .body(updatedUser)
                 .patch("/api/auth/user")
                 .then()
                 .log().all();
@@ -72,7 +82,7 @@ public class StellarBurgerClient {
     }
 
     public ValidatableResponse createOrderWithNoIngredients(String ingredient) {
-        if (ingredient == " ") {
+        if (ingredient.equals(" ")) {
             return given()
                     .log().all()
                     .baseUri(BASE_URL)

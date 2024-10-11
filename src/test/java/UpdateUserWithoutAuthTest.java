@@ -21,21 +21,13 @@ public class UpdateUserWithoutAuthTest {
     }
 
     @Test
-    public void updateEmailAndName() {
-
+    public void updateEmailAndName_fail() {
         String newEmail = "new_" + user.getEmail();
         String newName = "New_" + user.getName();
-
         User updatedUser = new User(newEmail, user.getPassword(), newName);
-
-        // Отправляем запрос на обновление данных пользователя
-        ValidatableResponse response = client.updateUser(user, updatedUser, token);
-
-        response.assertThat().statusCode(200).body("success", is(true));
-
-        // Проверяем, что email и имя пользователя обновлены
-        response.assertThat().body("user.email", is(newEmail)); // Проверка, что email обновлен
-        response.assertThat().body("user.name", is(newName));   // Проверка, что имя обновлено
+        // Отправляем запрос на обновление данных пользователя без авторизации
+        ValidatableResponse response = client.updateUserWithoutAuth(updatedUser);
+        response.assertThat().statusCode(401).body("success", is(false));
     }
 
     @After

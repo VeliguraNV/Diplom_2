@@ -39,7 +39,7 @@ public class UpdateUserWithAuthTest {
         User updatedUser = new User(newEmail, user.getPassword(), newName);
 
         // Отправляем запрос на обновление данных пользователя
-        ValidatableResponse response = client.updateUser(user, updatedUser, token);
+        ValidatableResponse response = client.updateUser(updatedUser, token);
 
         response.assertThat().statusCode(200).body("success", is(true));
 
